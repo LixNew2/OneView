@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OneView</title>
+<style>body{font:17px -apple-system,system-ui,sans-serif;display:grid;place-items:center;min-height:90vh;margin:0}</style>
+</head>
+<body>
+<a id="l">Back to the app</a>
+<script>
+var p = new URLSearchParams(location.search);
+var state = p.get('state') || '';
+var target = state.slice(state.indexOf('|') + 1);
+var q = new URLSearchParams({ code: p.get('code') || '', state: state, error: p.get('error') || '', error_description: p.get('error_description') || '' }).toString();
+var dest = target === 'app' ? 'oneview://oauth?' + q
+  : /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(target) ? target + '/?' + q : null;
+if (dest) { document.getElementById('l').href = dest; location.replace(dest); }
+else document.body.textContent = 'Invalid target';
+</script>
+</body>
+</html>
